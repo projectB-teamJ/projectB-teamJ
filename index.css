@@ -1,0 +1,34 @@
+body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background-color: #f0eae1; /* 淡い背景色 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* ボタン間の間隔を広く設定 */
+}
+
+.button {
+    min-width: 400px; /* ボタンの最小横幅を設定 */
+    padding: 20px 40px;
+    font-size: 20px;
+    color: #fff;
+    background-color: #d2b48c; /* 淡い茶色のボタン色 */
+    border: 2px solid #c3a780; /* 少し濃い茶色のボーダー */
+    border-radius: 25px; /* 丸みを強調 */
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.button:hover {
+    background-color: #c3a780; /* ホバー時のボタン色 */
+    transform: scale(1.05); /* ホバー時のスケール効果 */
+}

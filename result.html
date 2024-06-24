@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>写真の結果</title>
+    <link rel="stylesheet" href="result.css"> <!-- 外部CSSファイルをリンク -->
+</head>
+<body>
+    <div class="photo-container">
+        <h1>撮影した写真</h1>
+        <img id="capturedPhoto" src="" alt="Captured Photo" style="display: none;">
+        <div class="button-container">
+            <button class="button" onclick="retakePhoto()">撮り直す</button>
+            <button class="button" onclick="saveToGallery()">楽譜一覧に保存</button>
+            <button class="button" onclick="viewCapturedPhoto()">楽譜表示</button>
+            <button class="button" onclick="goToIndex()">ホームに戻る</button> <!-- ホームに戻るボタン -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const capturedPhoto = localStorage.getItem('capturedPhoto');
+            if (capturedPhoto) {
+                const imgElement = document.getElementById('capturedPhoto');
+                imgElement.src = capturedPhoto;
+                imgElement.style.display = 'block';
+            }
+        });
+
+        function retakePhoto() {
+            window.location.href = 'camera.html'; // カメラページに戻る
+        }
+
+        function saveToGallery() {
+            const capturedPhoto = localStorage.getItem('capturedPhoto');
+            if (!capturedPhoto) {
+                alert('写真が見つかりませんでした。');
+                return;
+            }
+
+            const storedPhotos = JSON.parse(localStorage.getItem('storedPhotos')) || [];
+            storedPhotos.push(capturedPhoto);
+            localStorage.setItem('storedPhotos', JSON.stringify(storedPhotos));
+            alert('楽譜一覧に保存しました。');
+            window.location.href = 'list.html'; // 楽譜一覧ページに移動
+        }
+
+        function viewCapturedPhoto() {
+            const capturedPhoto = localStorage.getItem('capturedPhoto');
+            if (!capturedPhoto) {
+                alert('写真が見つかりませんでした。');
+                return;
+            }
+
+            // img要素に取得した写真を設定する
+            const imgElement = document.getElementById('capturedPhoto');
+            imgElement.src = capturedPhoto;
+            imgElement.style.display = 'block'; // 必要に応じて、画像が非表示の場合に表示する
+
+            // 保存ロジックを追加
+            const storedPhotos = JSON.parse(localStorage.getItem('storedPhotos')) || [];
+            if (!storedPhotos.includes(capturedPhoto)) {
+                storedPhotos.push(capturedPhoto);
+                localStorage.setItem('storedPhotos', JSON.stringify(storedPhotos));
+                alert('楽譜一覧に保存しました。');
+            }
+
+            // viewer.htmlに遷移する
+            window.location.href = 'viewer.html';
+        }
+
+        function goToIndex() {
+            window.location.href = 'index.html'; // ホームページに移動
+        }
+    </script>
+</body>
+</html>

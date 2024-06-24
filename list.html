@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>楽譜一覧</title>
+    <link rel="stylesheet" href="list.css">
+</head>
+<body>
+    <div class="list-container">
+        <h1>楽譜一覧</h1>
+        <div class="gallery">
+            <!-- 動的に追加される写真 -->
+        </div>
+    </div>
+
+    <script>
+        // ローカルストレージから写真を取得して表示する
+        const storedPhotos = JSON.parse(localStorage.getItem('storedPhotos')) || [];
+        const gallery = document.querySelector('.gallery');
+
+        storedPhotos.forEach((photo, index) => {
+            const photoItem = document.createElement('div');
+            photoItem.classList.add('photo-item');
+            const imgElement = document.createElement('img');
+            imgElement.src = photo;
+            imgElement.alt = '楽譜写真';
+            imgElement.onclick = () => viewPhoto(index); // 画像クリック時の処理を追加
+            const deleteButton = document.createElement('button');
+            deleteButton.classList.add('delete-button');
+            deleteButton.innerText = '削除';
+            deleteButton.onclick = () => deletePhoto(index);
+            photoItem.appendChild(imgElement);
+            photoItem.appendChild(deleteButton);
+            gallery.appendChild(photoItem);
+        });
+
+        function deletePhoto(index) {
+            storedPhotos.splice(index, 1);
+            localStorage.setItem('storedPhotos', JSON.stringify(storedPhotos));
+            window.location.reload(); // ページをリロードして表示を更新
+        }
+
+        function viewPhoto(index) {
+            localStorage.setItem('capturedPhotoIndex', index); // 選択した写真のインデックスを保存
+            window.location.href = 'viewer.html'; // viewer.htmlに移動
+        }
+    </script>
+</body>
+</html>

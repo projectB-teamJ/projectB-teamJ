@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>楽譜表示</title>
+    <link rel="stylesheet" href="viewer.css">
+</head>
+<body>
+    <div class="photo-container">
+        <h1>楽譜表示</h1>
+        <img id="displayedPhoto" src="" alt="Displayed Photo">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const capturedPhotoIndex = localStorage.getItem('capturedPhotoIndex');
+            const storedPhotos = JSON.parse(localStorage.getItem('storedPhotos')) || [];
+            if (capturedPhotoIndex !== null && storedPhotos[capturedPhotoIndex]) {
+                const displayedPhoto = storedPhotos[capturedPhotoIndex];
+                const imgElement = document.getElementById('displayedPhoto');
+                imgElement.src = displayedPhoto;
+            } else {
+                alert('表示する写真が見つかりませんでした。');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>楽譜</title>
+    <link rel="stylesheet" href="index.css"> <!-- index.html用のスタイルシートを読み込む -->
+</head>
+<body>
+    <div class="button-container">
+        <button class="button" onclick="handleCamera()">カメラでの読み取り</button>
+        <label class="button file-input-label">
+            ファイルからの読み取り
+            <input type="file" style="display: none;" onchange="handleFile(event)">
+        </label>
+        <button class="button" onclick="handleList()">楽譜一覧</button>
+    </div>
+
+    <script>
+        function handleCamera() {
+            window.location.href = 'camera.html'; // カメラでの読み取りページに遷移
+        }
+
+        function handleFile(event) {
+            const fileList = event.target.files;
+            if (fileList.length > 0) {
+                const file = fileList[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const storedPhotos = JSON.parse(localStorage.getItem('storedPhotos')) || [];
+                    storedPhotos.push(e.target.result);
+                    localStorage.setItem('storedPhotos', JSON.stringify(storedPhotos));
+                    alert(`選択されたファイル: ${file.name}`);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleList() {
+            window.location.href = 'list.html'; // 楽譜一覧ページに遷移
+        }
+    </script>
+</body>
+</html>

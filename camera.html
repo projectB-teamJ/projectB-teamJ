@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>楽譜アプリ</title>
+    <link rel="stylesheet" href="camera.css"> <!-- camera.cssファイルを読み込む -->
+</head>
+<body>
+    <div class="camera-container">
+        <video id="video" width="100%" height="auto" autoplay></video> <!-- ビデオを全画面表示にする -->
+        <button id="shutterButton">シャッター</button> <!-- シャッターボタンを追加 -->
+    </div>
+  
+    <script>
+        var video = document.getElementById('video');
+        var shutterButton = document.getElementById('shutterButton');
+
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+                video.srcObject = stream;
+                video.play();
+            });
+        }
+
+        // シャッターボタンがクリックされたときの処理
+        shutterButton.onclick = function() {
+            var canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // 画像データを取得
+            var imageData = canvas.toDataURL('image/png');
+
+            // 画像データをlocalStorageに保存
+            localStorage.setItem('capturedPhoto', imageData);
+
+            // 新しいページに移動
+            window.location.href = 'result.html';
+        };
+    </script> 
+</body>
+</html>
